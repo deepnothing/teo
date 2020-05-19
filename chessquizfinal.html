@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            position: relative;
+            width:386px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .buttons{
+            font-size: x-large;
+            height:40px ;
+            font-family: monospace;
+            
+        }
+        .clock{
+            position: absolute;
+            height:45px;
+            width:90px;
+            top: 20px;
+            left: 500px;
+            font-size: xx-large;
+            text-align: center;
+            background: grey;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+       
+        .start-title{
+            position: absolute;
+           left: -30px;
+           transform: translateX(-100%);
+           font-size: 20px;
+        }
+        .score{
+            font-size: x-large;
+        }
+        .finaltext{
+            font-size: x-large;
+        }
+        .question-title{
+            font-family: monospace;
+            font-size:x-large
+        }
+        .reset{
+            height: 50px;
+            width: 80px;
+        }
+        .start-button{
+            position: relative;
+            height: 50px;
+            width: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
+    <script>
+
+
+var quiz = {
+    questions: [{
+        description: "<p>For this quiz you will be asked to select the best move for a given side in a given position. If you believe there is more than one correct answer, select either. You will have 5 minutes per question, if the timer hits zero before you check a valid answer and press next, the question will be marked incorrect. Press start to begin.</p> <p>CHESS NOTATION: Each move of a piece is indicated by the piece's uppercase letter, plus the coordinate of the destination square. For example, Be5 (move a bishop to e5), Nf3 (move a knight to f3). For pawn moves, a letter indicating pawn is not used, only the destination square is given. For example, c5 (move a pawn to c5).When a piece makes a capture, an x is inserted immediately before the destination square. For example, Bxe5 (bishop captures the piece on e5). When a pawn makes a capture, the file from which the pawn departed is used to identify the pawn. For example, exd5 (pawn on the e-file captures the piece on d5).</p>",
+        image: "images/king.jpg"
+    }, {
+        
+        description: "Question 1 white to move",
+        image: "images/Q1.png",
+        answers: [{
+                description: "Qxe6",
+                points: 0
+            },
+            {
+                description: "Rxd7",
+                points: 0
+            },
+            {
+                description: "Qb8",
+                points: 1
+            },
+            {
+                description: "Qb7",
+                points: 0
+            }
+        ]
+    }, {
+        
+        description: "Question 2 white to move",
+        image: "images/Q2.png",
+        answers: [{
+                description: "b6",
+                points: 1
+            },
+            {
+                description: "Kb6",
+                points: 1
+            },
+            {
+                description: "Nd7",
+                points: 0
+            },
+            {
+                description: "Ne6",
+                points: 0
+            }
+        ]
+    }, {
+        description: "Question 3 white to move",
+        image: "images/Q3.png",
+        answers: [{
+                description: "Rh7",
+                points: 0
+            },
+            {
+                description: "Rh8",
+                points: 1
+            },
+            {
+                description: "Rxf7",
+                points: 0
+            },
+            {
+                description: "Rxg5",
+                points: 0
+            }
+        ]
+    }, {
+        
+        description: "Question 4 white to move",
+        image: "images/Q4.png",
+        answers: [{
+                description: "Bd5",
+                points: 0
+            },
+            {
+                description: "Bd7",
+                points: 1
+            },
+            {
+                description: "Rxf8",
+                points: 0
+            },
+            {
+                description: "Rxe7",
+                points: 0
+            }
+        ]
+    },{
+        
+        description: "Question 5 white to move",
+        image: "images/Q5.png",
+        answers: [{
+                description: "f3",
+                points: 1
+            },
+            {
+                description: "f4",
+                points: 1
+            },
+            {
+                description: "Kh2",
+                points: 0
+            },
+            {
+                description: "Kf1",
+                points: 0
+            }
+        ]
+    },{
+        
+        description: "Question 6 white to move",
+        image: "images/Q6.png",
+        answers: [{
+                description: "Qxf6",
+                points: 0
+            },
+            {
+                description: "Qxc6",
+                points: 1
+            },
+            {
+                description: "Bf2",
+                points: 0
+            },
+            {
+                description: "Qh5",
+                points: 0
+            }
+        ]
+    }, {
+        description: "RESULT"
+    }]
+}
+            
+    </script>
+</head>
+<body>
+    <div class = "container">
+        <div class = "quiz-wrapper"></div>
+       <div class = "clock">0:00</div> 
+    </div>
+
+
+
+    <script>
+
+        var quizWrapper = document.querySelector(".quiz-wrapper");
+        var clock = document.querySelector(".clock");
+        var selected = 0;
+        var answerpoints = 0;
+        var checked;
+        var score = 0;
+        var timer;
+
+        function buildStart(){
+            var title = quiz.questions[selected].description;
+            var startImage = quiz.questions[selected].image;
+            var s = document.createElement("div");
+            
+            s.innerHTML = '<div class = "questioncontainer">\
+                <div class = "start-title">'+title+'</div>\
+                <div class = "start-backround"><img src = '+startImage+' width = "100%" ></div>\
+                <button class = "start-button">START</button>\
+            </div>';
+
+            quizWrapper.appendChild(s);
+            document.querySelector(".start-button").addEventListener("click", function(){
+                selected++;
+                quizWrapper.innerHTML = '';
+                buildQuestion(selected);
+            })
+            
+        }
+
+        function buildQuestion(sel){
+            checked = false;
+            var question = quiz.questions[sel].description;
+            var backImage = quiz.questions[selected].image;
+            var s = document.createElement("div");
+            
+            s.innerHTML = '<div class = "questioncontainer">\
+                <div class = "question-title">'+question+'</div>\
+                <div class = "question-backround"><img src = '+backImage+' width = "100%"></div>\
+                '+buildAnswers(sel)+'\
+                <button class = "next-button">Next</button>\
+            </div>';
+            quizWrapper.appendChild(s);
+
+            countdown(5);
+
+            document.querySelector(".next-button").addEventListener("click", function(){
+                if(checked){
+                    if(selected < quiz.questions.length - 2){
+                        clearInterval(timer);
+                        selected++;
+                        quizWrapper.innerHTML = '';
+                        score += Number(answerpoints);
+                        console.log(score);
+                        buildQuestion(selected);
+                        answerpoints = 0;
+                    }else{
+                        quizWrapper.innerHTML = '';
+                        selected++;
+                        resultdisplay();
+                    }
+                }               
+            })           
+        }
+       
+
+        function buildAnswers(sel){
+           var answers = quiz.questions[sel].answers;
+           console.log(answers)
+           var qs = '<div class = answers>';
+                for(var i = 0; i < answers.length; i++){
+                    qs += '<div class = "buttons"><input type="radio" id="answ_'+i+'" name="answr" value="'+answers[i].points+'" onclick = "setpoints(\' '+answers[i].points+' \')">';
+                    qs += '<label for="answ_'+i+'">'+answers[i].description+'</label></div>';
+                }
+            qs += '</div>';
+            return qs;
+        }
+
+        function setpoints(points){
+            checked = true;
+            answerpoints = points;           
+        }
+        
+        function resultdisplay(){
+            console.log('result')
+            clearInterval(timer);
+            score += Number(answerpoints);
+            console.log(score)
+            clock.innerHTML = "0:00";
+            
+            var title = quiz.questions[selected].description;
+            var s = document.createElement("div");
+            var percent = Math.round(score * 100/(quiz.questions.length - 2));
+            var shoo;
+            var txt;
+            if(percent >= 0 && percent <= 34){
+                shoo = "images/bad.png";
+                txt = "gotta work on those tactics!";
+            };
+            if(percent > 34 && percent <= 67){
+                shoo = "images/intermediate.png";
+                txt = "doing good, keep up the good work!";
+            };
+            if(percent > 67 && percent <= 100){
+                shoo = "images/expert.png";
+                txt = "based on your result, this might be you";
+            };
+            console.log(shoo);
+            s.innerHTML = '<div class = "questioncontainer">\
+                <div class = "start-title">'+title+'</div>\
+                <div class = "score">Your score is '+score+'/'+(quiz.questions.length - 2)+'</div>\
+                <div class = "finalimage"><img src = '+shoo+' width = "100%"></div>\
+                <div class = "finaltext">'+txt+'</div>\
+                <button class = "reset">Start Over</button>\
+                </div>';
+
+            quizWrapper.appendChild(s);
+            document.querySelector(".reset").addEventListener("click", function(){
+                selected = 0;
+                quizWrapper.innerHTML = '';
+                buildStart();
+                
+            })
+
+        }
+
+        function countdown(n){
+            clock.innerHTML = n+":00 ";
+            n = n*60; // set number of seconds based on min argument
+
+            timer = setInterval(function(){ // interval
+                
+
+                n--;  // countdwn
+
+                var min = Math.round(n / 60)-1; 
+                var sec = Math.round(n % 60); 
+                if(min < 1){
+                    min = 0;
+                    clock.style.backround = 'red';
+                }else{
+                    clock.style.backround = 'grey';
+                }
+
+                clock.innerHTML = min+":"+sec;
+                
+                if(n <= 0){
+                
+                if(selected < quiz.questions.length - 2){
+                        clearInterval(timer);
+                        selected++;
+                        quizWrapper.innerHTML = '';
+                        buildQuestion(selected);
+                        answerpoints = 0;
+                    }else{
+                        quizWrapper.innerHTML = '';
+                        selected++;
+                        resultdisplay();
+                    }
+                
+                
+                }
+            }, 1000);
+        }
+        
+
+
+        buildStart();
+
+        
+    </script>
+</body>
+</html>

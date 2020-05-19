@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #winner{
+            border: 1px solid black;
+           height:100px;
+        width: 200px;
+        background-color:red;
+        animation-name: example;
+        animation-duration: 0.2s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-fill-mode: none;
+        font-size: xx-large;
+        transition: all 1s ease-in-out;
+        
+        }
+        @keyframes example {
+          from {background-color: red;}
+          to {background-color: yellow;}
+          
+        }
+      
+        
+        table{
+          margin:0 auto;
+          table-layout: fixed;
+          background-image: url(images/outline.png);
+          background-position: center;
+          background-size: 400px;
+  
+        }
+        td{
+            font-family: Charcoal;
+            font-size: 80px;
+            text-align: center;
+            width: 105px; height: 105px;
+            color:seashell
+        }
+        .bordertopleft{
+          border-right: 0px solid white;
+          border-bottom: 0px solid white;
+        }
+        .bordertopmiddle{
+          border-bottom: 0px solid white;
+        }
+        .bordertopright{
+          border-bottom: 0px solid white;
+          border-left: 0px solid white;
+        }
+        .bordermidleft{
+          border-right: 0px solid white;
+        }
+        .bordermidright{
+          border-left: 0px solid white;
+         }
+         .borderbottomleft{
+          border-right: 0px solid white;
+          border-top: 0px solid white; 
+          }
+         .borderbottommiddle{
+          border-top: 0px solid white;
+         }
+         .borderbottomright{
+          border-left: 0px solid white;
+          border-top: 0px solid white; 
+         }
+         .container{
+           background: url(images/chalkboard.png) no-repeat center;
+           padding:50px;
+           background-size: contain;
+         }
+    </style>
+</head>
+
+<body>
+    
+    <div id="winner">
+      
+      
+
+    </div>
+    <button id="reset">
+      reset
+    </button>
+    
+    
+    <div class= "container">
+
+   <table width= "300" border="0" cellpadding="0" cellspacing="0">
+        
+        <tr>
+          <td class="topthree diagonalright vertleft bordertopleft"></td>
+          <td class="topthree vertmiddle bordertopmiddle"></td>
+          <td class="topthree vertright diagonalleft bordertopright"></td>
+        </tr>
+        <tr>
+          <td class= "middlethree vertleft bordermidleft"></td>
+          <td class= "middlethree vertmiddle diagonalleft diagonalright"></td>
+          <td class="middlethree vertright bordermidright"></td>
+        </tr>
+        <tr>
+          <td class= "bottomthree vertleft diagonalleft borderbottomleft"></td>
+          <td class="bottomthree vertmiddle borderbottommiddle"></td>
+          <td class= "bottomthree vertright diagonalright borderbottomright" ></td>
+        </tr>
+      </table>
+    </div>
+      
+      
+      
+      <script>
+        var winner= document.querySelector("#winner");
+        winner.style.webkitAnimationPlayState = "paused";
+        var reset= document.querySelector("#reset");
+         var sign= "X";
+         var tds= document.querySelectorAll("td");
+         //console.log(tds)
+         
+         for(var i=0; i<tds.length; i++ ){
+             tds[i].addEventListener("click", function(){
+                if (this.innerHTML==""){
+                    this.innerHTML= sign;
+                   checkme();
+                 }
+                 if (sign=="X") {
+                     sign="O"
+            
+                    }else if(sign=="O"){
+                        sign="X";
+                        
+                    }
+                
+                 
+             })
+             //console.log(tds[i])
+         }
+          
+         
+
+        
+
+        var classNames = ["topthree", "middlethree", "bottomthree", "vertleft", "vertmiddle", "vertright", "diagonalleft", "diagonalright"];
+       function checkme(){
+         
+          for(var i=0; i<classNames.length; i++){
+          var lines = document.querySelectorAll("."+classNames[i]);
+          var O = [];
+          var X = [];
+
+            for(var j=0; j<lines.length; j++){
+              if (lines[j].innerHTML=="O"){
+                O.push("O");
+                 
+              }
+              if (lines[j].innerHTML=="X"){
+                X.push("X");
+  
+              }
+            }
+            if (O.length==3) {
+              winner.innerHTML="O wins";
+              winner.style.webkitAnimationPlayState = "running";
+              winner.style.transform = "translateX(1000px) rotate(90deg)";
+
+              setTimeout(function(){
+                  winner.style.transform = "translateX(0px) rotate(0)";
+                }, 1000);
+
+              } 
+      
+            
+            if (X.length==3) {
+              winner.innerHTML="X wins";
+              winner.style.webkitAnimationPlayState = "running";
+              winner.style.transform = "translateX(1000px) rotate(90deg) ";
+
+              setTimeout(function(){
+                  winner.style.transform = "translateX(0px) rotate(0)";
+                }, 1000);
+
+              }
+            
+            
+          }
+       }
+        reset.addEventListener("click", function(){
+          winner.innerHTML="";
+          winner.style.webkitAnimationPlayState = "paused";
+        for(var i=0; i<tds.length; i++ ){
+          //console.log(tds[i])
+          tds[i].innerHTML="";
+        }
+      })
+      
+      </script>
+      </body>
+      </html>
+      
+</body>
+</html>

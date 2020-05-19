@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container{
+            width: 100%;
+            height: 300px;
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            background: url(images/clouds4.png);
+        }
+        .container *{
+            
+            box-sizing: border-box;
+        }
+        .helicopter{
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            position: absolute;
+            top: calc(50% - 140px);
+            left: 60px;
+            background: url(images/redplane.png) no-repeat center;
+            background-size: 100%;
+            
+        } 
+        .zombie{
+            background: url(images/plane2.png) no-repeat center;
+            background-size: 100%;
+        }
+        .instructions{
+            margin: 0 auto;
+            height: 200px;
+            width:200px;
+            background: url(images/arrows.png) no-repeat center;
+            background-size: 100%;
+        }
+        .gameover{
+            position: relative;
+            display: none;
+            z-index: 10;
+        }
+        .instructions{
+            font-family: fantasy;
+        }
+        .score{
+            font-family: fantasy;
+        }
+            
+    </style>
+
+</head>
+<body>
+    <button class="start-button">START // RESET</button>
+    <div class="score">0</div>
+    <div class="container">
+        <div class="helicopter"></div>
+        <div class = "gameover">
+            <img src = "images/over.png" height = "100%">
+        </div>
+    </div><br>
+    <div class = "instructions">
+        CONTROLS
+    </div>
+    <script>
+        var over = document.querySelector('.gameover');
+        var container = document.querySelector('.container');
+        var helicopter = document.querySelector('.helicopter');
+        var startBtn = document.querySelector('.start-button');
+        var score = document.querySelector('.score');
+        var dead;
+        var points = 0;
+        var topbot = 'top';
+        var result = 0;
+
+        function randNum(min, max) { 
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+/*         window.addEventListener('keydown', function (evt) {
+            if(evt.keyCode == 38){
+                var t = helicopter.offsetTop;
+                helicopter.style.top = t+'px';
+                t -= 30;
+                helicopter.style.top = t+'px';
+            }else if(evt.keyCode == 40){
+                var t = helicopter.offsetTop;
+                helicopter.style.top = t+'px';
+                t += 30;
+                helicopter.style.top = t+'px';             
+            };
+        }); */
+
+
+        function createEl(tb){
+            var d = document.createElement('div');
+            d.className = 'zombie';
+            d.dataset.points = points;
+            points ++;
+            d.style.cssText = 'position: absolute; z-index: 1;'+tb+': '+randNum(0, 80)+'px; width: 100px; height: 50px; left:'+(container.offsetLeft+container.offsetWidth)+'px';
+            container.appendChild(d);
+            goMove(d);
+            if(tb == 'top') topbot = 'bottom';
+            if(tb == 'bottom') topbot = 'top';
+            if(!dead){setTimeout(function(){createEl(topbot)}, randNum(900, 1000));}
+        }
+
+        function goMove(el){
+            var intvl = setInterval(function(){
+                var l = el.offsetLeft;
+                el.style.left = l+'px';
+                l -= 3;
+                el.style.left = l+'px'; 
+                if(l < container.offsetLeft - el.offsetWidth) clearInterval(intvl);
+                if(isCollide(el, helicopter) || dead){ 
+                    clearInterval(intvl);
+                }
+                if(isCollide(el, helicopter)){
+                    result = el.dataset.points;
+                    score.innerHTML = "Planes Avoided: " + result;
+                }       
+            }, 20);
+        }
+
+
+        function isCollide(a, b) {
+            var aRect = a.getBoundingClientRect();
+            var bRect = b.getBoundingClientRect();
+
+            if(((aRect.top + aRect.height) < (bRect.top)) ||
+                (aRect.top > (bRect.top + bRect.height)) ||
+                ((aRect.left + aRect.width) < bRect.left) ||
+                (aRect.left > (bRect.left + bRect.width))){
+                return false;
+            }else{
+                dead = true;
+                over.style.display = "block"
+                return true;
+                
+            };
+
+        }
+
+    function onKeyPress(callback) {
+        var keys = {},
+        keysCount = 0,
+        interval = null,
+        trackedKeys = {
+            37: true, // left arrow
+            38: true, // up arrow
+            39: true, // right arrow
+            40: true // down arrow
+        };
+
+        document.addEventListener("keydown", function(event){
+        var code = event.which;
+        
+        if (trackedKeys[code]) {
+            if (!keys[code]) {
+                keys[code] = true;
+                keysCount++;
+            }
+            
+            if (interval === null) {
+                interval = setInterval(function () {
+                    var direction = '';
+                    
+                    // check if north or south
+                    if (keys[38]) {
+                        direction = 'n';
+                    } else if (keys[40]) {
+                        direction = 's';
+                    }
+                    
+                    // concat west or east
+                    if (keys[37]) {
+                        direction += 'w';
+                    } else if (keys[39]) {
+                        direction += 'e';
+                    }
+                
+                    callback(direction);
+                }, 10);
+            }
+        }
+    });
+    document.addEventListener("keyup", function(event){
+        var code = event.which;
+        if (keys[code]) {
+            delete keys[code];
+            keysCount--;
+        }       
+        // need to check if keyboard movement stopped
+        if ((trackedKeys[code]) && (keysCount === 0)) {
+            clearInterval(interval);
+            interval = null;
+            callback('none');
+        }
+    });
+}
+
+    var nsSpeed = 3;
+    var weSpeed = 3;
+    function arrowMoves(a){
+       var t = helicopter.offsetTop;
+       var l = helicopter.offsetLeft;
+       var hh = helicopter.offsetHeight;
+       var hw = helicopter.offsetWidth;
+       var ch = container.offsetHeight;
+       var cw = container.offsetWidth;
+
+       helicopter.style.top = t+'px';
+       helicopter.style.left = l+'px';
+       if(a == 'n'){
+           t -= nsSpeed;
+           if(t <= 0) t = 0;
+       }
+       if(a == 's'){
+           t += nsSpeed;
+           if(t >= ch-hh) t = ch-hh;
+       }
+       if(a == 'w'){
+           l -= weSpeed;
+           if(l <= 0) l = 0;
+       }
+       if(a == 'e'){
+           l += weSpeed;
+           if(l >= cw-hw) l = cw-hw;
+       }
+       if(a == 'nw'){
+           t -= nsSpeed;
+           if(t <= 0) t = 0;
+           l -= weSpeed;
+           if(l <= 0) l = 0;
+       }
+       if(a == 'ne'){
+           t -= nsSpeed;
+           if(t <= 0) t = 0;
+           l += weSpeed;
+           if(l >= cw-hw) l = cw-hw;
+       }
+       if(a == 'sw'){
+           t += nsSpeed;
+           if(t >= ch-hh) t = ch-hh;
+           l -= weSpeed;
+           if(l <= 0) l = 0;
+       }
+       if(a == 'se'){
+           t += nsSpeed;
+           if(t >= ch-hh) t = ch-hh;
+           l += weSpeed;
+           if(l >= cw-hw) l = cw-hw;
+       }
+       
+       helicopter.style.top = t+'px';
+       helicopter.style.left = l+'px';
+       //console.log(a)
+   }
+onKeyPress(arrowMoves);
+
+
+
+        startBtn.addEventListener('click', function(){
+            var zombies = document.querySelectorAll('.zombie');
+            for(var i=0; i<zombies.length; i++){
+                container.removeChild(zombies[i]);
+            }
+            dead = false;
+            points = 0;
+            over.style.display = "none"
+            setTimeout(function(){createEl(topbot);} ,200);
+        })
+
+
+    </script>
+    </textarea>
+</body>
+</html>
