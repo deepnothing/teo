@@ -8,7 +8,7 @@
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-		ga('create', 'UA-167484802-1', 'auto');
+		ga('create', 'UA-167484802-1', 'auto', 'teosite');
 		ga('send', 'pageview');
 		</script>
 		
@@ -54,7 +54,7 @@
 									<h2>Airplane game</h2>
 									<p>An interactive 2d game where the user controls a small airplane and tries to avoid as many large planes as possible without crashing.</p>
 									<ul class="actions">
-										<li><a href="helicopter2.html" class="button">view project</a></li>
+										<li><a href="helicopter2.html" class="button" onclick="getGa(\"Home Page\", \"click\", \"somebutton\");">view project</a></li>
 										<li><a href="helicoptercode.html" class="button">view code</a></li>
 									</ul>
 								</div>
@@ -172,6 +172,10 @@
 
 			</div>
 			<script>
+				function getGa(a, b, c){
+					//ga('teosite.send', 'event', a, b, c);
+					console.log(a,b,c);
+				}
 				var mybutton = document.querySelector(".mybutton");
 				var game = document.querySelector("#name");
 				var email = document.querySelector("#email");
