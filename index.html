@@ -54,8 +54,8 @@
 									<h2>Airplane game</h2>
 									<p>An interactive 2d game where the user controls a small airplane and tries to avoid as many large planes as possible without crashing.</p>
 									<ul class="actions">
-										<li><a href="helicopter2.html" class="button" target="_blank" onclick="getGa('home page', 'click', 'somepage');">view project</a></li>
-										<li><a href="helicoptercode.html" class="button">view code</a></li>
+										<li><a href="helicopter2.html" class="button" onclick="getGa('home page', 'click', 'helicopter');">view project</a></li>
+										<li><a href="helicoptercode.html" class="button" onclick="getGa('home page', 'click', 'helicoptercode');">view code</a></li>
 									</ul>
 								</div>
 							</div>
@@ -67,8 +67,8 @@
 									<h2>Slot Machine</h2>
 									<p>A casino style slot machine with 3 slots containing 3 possibilities each.</p>
 									<ul class="actions">
-										<li><a href="slotmachinefinal.html" class="button">view project</a></li>
-										<li><a href="slotmachinecode.html" class="button">view code</a></li>
+										<li><a href="slotmachinefinal.html" class="button" onclick="getGa('home page', 'click', 'slotmachine');">view project</a></li>
+										<li><a href="slotmachinecode.html" class="button" onclick="getGa('home page', 'click', 'slot machine code');">view code</a></li>
 									</ul>
 								</div>
 							</div>
@@ -80,8 +80,8 @@
 									<h2>Chess quiz</h2>
 									<p>A test where the user is given chess positions as questions and has to try and find the best move within the allloted time, scores are assigned at the end, some knowlege of peice movement is required.</p>
 									<ul class="actions">
-										<li><a href="chessquizfinal.html" class="button">view project</a></li>
-										<li><a href="chessquizcode.html" class="button">view code</a></li>
+										<li><a href="chessquizfinal.html" class="button" onclick="getGa('home page', 'click', 'chessquiz');">view project</a></li>
+										<li><a href="chessquizcode.html" class="button" onclick="getGa('home page', 'click', 'chess code');">view code</a></li>
 									</ul>
 								</div>
 							</div>
@@ -94,8 +94,8 @@
 								<h2>Tic-Tac-Toe</h2>
 								<p>The classic game of tictactoe using loops and conditionals.</p>
 								<ul class="actions">
-									<li><a href="tictactoe.html" class="button">view project</a></li>
-									<li><a href="tictactoecode.html" class="button">view code</a></li>
+									<li><a href="tictactoe.html" class="button" onclick="getGa('home page', 'click', 'tictactoe');">view project</a></li>
+									<li><a href="tictactoecode.html" class="button" onclick="getGa('home page', 'click', 'tic tac toe code');">view code</a></li>
 								</ul>
 							</div>
 						</div>
@@ -173,8 +173,7 @@
 			</div>
 			<script>
 				function getGa(a, b, c){
-					//ga('teosite.send', 'event', a, b, c);
-					console.log(a,b,c);
+					ga('teosite.send', 'event', a, b, c);
 				}
 				var mybutton = document.querySelector(".mybutton");
 				var game = document.querySelector("#name");
