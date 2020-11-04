@@ -3477,7 +3477,7 @@ input, select, textarea {
 
 		}
 
-		@media screen and (max-width: 736px) {
+		@media screen and (max-width: 1px) {
 
 			#sidebar + #wrapper {
 				padding-top: 0;
@@ -3864,7 +3864,7 @@ input, select, textarea {
 
 		@media screen and (max-width: 736px) {
 
-/* 			#sidebar {
+			/* #sidebar {
 				display: none;
 			} */
 
@@ -3874,11 +3874,12 @@ input, select, textarea {
 
 	#intro {
 		background-attachment: fixed;
-		background-image: url("images/intro.svg");
-		background-position: top right;
+		background-image: url("images/space.jpg");
+		background-position: -70px -50px;
 		background-repeat: no-repeat;
-		background-size: 100% 100%;
-	}
+		background-size: 120% 120%;
+		
+		}
 
 		#intro p {
 			font-size: 1.25em;
