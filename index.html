@@ -32,8 +32,10 @@
 			<nav>
 				<ul>
 					<li><a href="#intro">Welcome</a></li>
-					<li><a href="#one">Programming</a></li>
-					<li><a href="#two">Design</a></li>
+					<li><a href="#intro">React JS</a></li>
+					<li><a href="#PHP">PHP</a></li>
+					<li><a href="#jsgames">JS games</a></li>
+					<li><a href="#two">Industrial Design</a></li>
 					<!-- <li><a href="#two">Resume</a></li> -->
 					<li><a href="#three">Get in touch</a></li>
 				</ul>
@@ -46,13 +48,15 @@
 
 		<!-- Intro -->
 		<section id="intro" class="wrapper style1 fullscreen fade-up">
+
 			<div class="inner">
+
 				<h1>Teo Udovčić</h1>
 			</div>
 		</section>
 
 		<!-- One -->
-		<section id="one" class="wrapper style2 spotlights">
+		<section id="PHP" class="wrapper style2 spotlights">
 			<section>
 				<a href="#" class="image" style="background-size: contain "><img src="images/globe3.jpg" alt=""
 						data-position="center center" /></a>
@@ -69,7 +73,7 @@
 					</div>
 				</div>
 			</section>
-			<section>
+			<section id="jsgames" class="wrapper style2 spotlights">
 				<a href="#" class="image" style="background-size: contain no-repeat"><img src="images/coordinate.jpg"
 						alt="" data-position="center center" /></a>
 				<div class="content">
@@ -307,8 +311,16 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script>
+
+		$('#intro').mousemove(function (e) {
+			var amountMovedX = (e.pageX * -0.5 / 6);
+			var amountMovedY = (e.pageY * -0.5 / 6);
+			$(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
+		});
+	</script>
 
 </body>
 
-</html>
 
+</html>
