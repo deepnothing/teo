@@ -25,7 +25,7 @@ const randomInRange = (max, min) =>
 
 
 const update = () => {
-    Scene.rotate.y += 0.001;
+    Scene.rotate.y += 0.005;
     Scene.updateRenderGraph();
     requestAnimationFrame(update);
 };
