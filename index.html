@@ -23,6 +23,30 @@
 	<noscript>
 		<link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+	<script src="https://unpkg.com/zdog@1/dist/zdog.dist.min.js"></script>
+	<style>
+		canvas {
+			position: absolute;
+			top: -60%;
+			height: 65vh;
+			width: 65vw;
+			z-index: 2;
+		}
+
+		.headingname {
+			z-index: 1;
+			position: relative;
+
+
+		}
+
+		.dragsign {
+			position: absolute;
+			top: -10%;
+			left: 45%;
+		}
+	</style>
+
 </head>
 
 <body class="is-preload">
@@ -52,7 +76,11 @@
 
 			<div class="inner">
 
-				<h1 class="ml2">Teo Udovčić</h1>
+				<h1 class="ml2 headingname">Teo Udovčić</h1>
+				<div class="dragsign">(drag me)</div>
+
+				<canvas></canvas>
+
 			</div>
 		</section>
 
@@ -312,14 +340,30 @@
 	<script src="assets/js/breakpoints.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<script src="assets/js/main.js"></script>
+	<script src="assets/js/zdog.js"></script>
 	<script>
-
+		///////////////////////JQUERY ANIMATIONS////////////////////////////
 		$('#intro').mousemove(function (e) {
 			var amountMovedX = (e.pageX * -0.5 / 6);
 			var amountMovedY = (e.pageY * -0.5 / 6);
 			$(this).css('background-position', amountMovedX + 'px ' + amountMovedY + 'px');
 		});
-			var textWrapper = document.querySelector('.ml2');
+
+		var $circle = $('.circle');
+
+		function moveCircle(e) {
+			TweenLite.to($circle, 0.3, {
+				css: {
+					left: e.pageX,
+					top: e.pageY
+				}
+			});
+		}
+
+		$(window).on('mousemove', moveCircle);
+
+		////////////////////////////LETTER ANIMATION//////////////////////////////
+		var textWrapper = document.querySelector('.ml2');
 		textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 
 		anime.timeline({ loop: false })
