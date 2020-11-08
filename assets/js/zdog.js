@@ -249,4 +249,4 @@ const spot = new Zdog.Ellipse({
 
 
 
-update();
+update(); 
