@@ -74,7 +74,7 @@
 				<h1 class="ml2 headingname">Teo Udovčić</h1>
 
 
-				<canvas></canvas>
+				<canvas id="ship"></canvas>
 
 			</div>
 		</section>
@@ -460,6 +460,17 @@
 				duration: 950,
 				delay: (el, i) => 70 * i
 			});
+	</script>
+		
+	<script>
+	<script>
+		if ($(window).width() <= 970) {
+
+			$("#ship").css({ "left": "30%", "top": "-90%" })
+
+
+		}
+	</script>		
 	</script>
 
 </body>
